@@ -1,0 +1,23 @@
+#!/bin/sh /etc/rc.common
+
+START=80
+PROG=/usr/bin/open5gs-sgwud
+
+CONFIG=/etc/open5gs/sgwu.yaml
+
+start() {
+	[ -f $CONFIG ] || return 1
+	[ -d /var/log/open5gs ] || mkdir -p /var/log/open5gs
+
+	(service_start $PROG --config=$CONFIG &> /dev/null )&
+}
+
+stop() {
+	service_stop $PROG
+}
+
+reload() {
+	$PROG reload
+}
+
+
